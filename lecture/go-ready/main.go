@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 // func main() {
@@ -365,41 +364,46 @@ import (
 // 	calc(4)
 // }
 
+// func counter(s string, n int) {
+// 	for i := 0; i < n; i++ {
+// 		time.Sleep(time.Second)
+// 		fmt.Println(s, " : ", i)
+// 	}
+// }
+
+// func main() {
+// 	fmt.Println("start go")
+
+// 	go func() {
+// 		defer counter("e", 10)
+// 	}()
+
+// 	go counter("a", 10)
+
+// 	go func() {
+// 		counter("b", 10)
+// 	}()
+
+// 	go func() {
+// 		for i := 0; i < 10; i++ {
+// 			time.Sleep(time.Second)
+// 			fmt.Println("c : ", i)
+// 		}
+// 	}()
+
+// 	// var i int = 0
+// 	// for {
+// 	// 	time.Sleep(time.Second)
+// 	// 	fmt.Println("c : ", i)
+// 	// 	i++
+// 	// }
+
+// 	counter("d", 10)
+// }
 
 
-func counter(s string, n int) {
-	for i := 0; i < n; i++ {
-		time.Sleep(time.Second)
-		fmt.Println(s, " : ", i)
-	}
-}
+
 
 func main() {
-	fmt.Println("start go")
-
-	go func() {
-		defer counter("e", 10)
-	}()
-
-	go counter("a", 10)
-
-	go func() {
-		counter("b", 10)
-	}()
-
-	go func() {
-		for i := 0; i < 10; i++ {
-			time.Sleep(time.Second)
-			fmt.Println("c : ", i)
-		}
-	}()
-
-	// var i int = 0
-	// for {
-	// 	time.Sleep(time.Second)
-	// 	fmt.Println("c : ", i)
-	// 	i++
-	// }
-
-	counter("d", 10)
+	fmt.Println("Hello World")
 }
