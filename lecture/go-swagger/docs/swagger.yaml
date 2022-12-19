@@ -1,0 +1,94 @@
+definitions:
+  controller.Controller:
+    type: object
+  model.Person:
+    properties:
+      age:
+        type: integer
+      name:
+        type: string
+      pnum:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /acc/v01/ok:
+    get:
+      consumes:
+      - application/json
+      description: api test를 위한 기능.
+      parameters:
+      - description: User name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.Controller'
+      summary: call GetOK, return ok by json.
+  /acc/v01/person/{name}:
+    get:
+      consumes:
+      - application/json
+      description: 이름으로 원하는 person의 데이터를 찾는 기능
+      parameters:
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Person'
+      summary: call CtlGetByName with path parameter "name", return object by json.
+  /acc/v01/person/add:
+    post:
+      consumes:
+      - application/json
+      description: Person 데이터를 추가하는 기능
+      parameters:
+      - description: person
+        in: body
+        name: person
+        required: true
+        schema:
+          $ref: '#/definitions/model.Person'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Person'
+      summary: call CtlAddPerson body "name", "age", "pnum", return object by json.
+  /acc/v01/person/update:
+    put:
+      consumes:
+      - application/json
+      description: Person 데이터를 업데이트하는 기능
+      parameters:
+      - description: data
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/model.Person'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: call CtlUpdatePerson body "name", "age" return objectId
+swagger: "2.0"
