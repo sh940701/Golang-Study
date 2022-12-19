@@ -6,19 +6,16 @@ import (
 	ctl "lecture/go-mvc/controller"
 )
 
-// 라우터 객체 - controller로 이루어져 있음
 type Router struct {
 	ct *ctl.Controller
 }
 
-// router를 만들어주는 함수 - controller를 받아서 만들어줌
 func NewRouter(ctl *ctl.Controller) (*Router, error) {
 	r := &Router{ct : ctl}
 
 	return r, nil
 }
 
-// cross domain을 위해 만들어주는 미들웨어
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
@@ -36,10 +33,8 @@ func CORS() gin.HandlerFunc {
 	}
 }
 
-// 사용자 인증을 위한 미들웨어
 func liteAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// 인증 기능 구현
 		if c == nil {
 			c.Abort()
 		}
@@ -52,17 +47,20 @@ func liteAuth() gin.HandlerFunc {
 
 // 실제 라우팅 기능 함수
 func (p *Router) Idx() *gin.Engine {
-	// 구현해야 할 부분
-	// 실제 gin.Engine객체를 만들어줌
-	e := gin.New()
+	r := gin.New()
 	
-	e.Use(gin.Logger())
-	e.Use(gin.Recovery())
-	e.Use(CORS())
-	account := e.Group("/acc/v01", liteAuth())
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
+	r.Use(CORS())
+	// root에서 /person 경로를 group화 해줌
+	pRoute := r.Group("/person", liteAuth())
 	{
-		fmt.Println(account)
-		account.GET("/ok", p.ct.GetOK) // controller 패키지의 실제 처리 함수
+		pRoute.GET("/people", p.ct.CtlGetPeople)
+		pRoute.GET("/name/:name", p.ct.CtlGetInfoByName)
+		pRoute.GET("/pnum/:pnum", p.ct.CtlGetInfoByPnum)
+		pRoute.POST("/add", p.ct.CtlAddPerson)
+		pRoute.POST("/delete", p.ct.CtlDeletePerson)
+		pRoute.PUT("/modify", p.ct.CtlUpdatePerson)
 	}
-	return e;
+	return r;
 }

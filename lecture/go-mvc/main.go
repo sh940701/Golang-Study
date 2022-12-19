@@ -8,12 +8,12 @@ import (
 	"net/http"
 	"time"
 
-	"golang.org/x/sync/errgroup"
+	// "golang.org/x/sync/errgroup"
 )
 
-var (
-	g errgroup.Group
-)
+// var (
+// 	g errgroup.Group
+// )
 
 func main() {
 	// model 객체 초기화
@@ -37,7 +37,6 @@ func main() {
 			WriteTimeout: 10 * time.Second,
 			MaxHeaderBytes: 1 << 20,
 		}
-
 		mapi.ListenAndServe()
 	}
 
