@@ -20,12 +20,14 @@ func NewCTL(rep *model.Model) (*Controller, error) {
 	return r, nil
 }
 
+// 전체 목록을 가져오는 controller 함수
 func (p *Controller) CtlGetPeople(c *gin.Context) {
 	result := p.md.GetPeopleFromDB()
 	c.JSON(200, gin.H{"people" : result})
 	// return
 }
 
+// 이름으로 data를 가져오는 controller 함수
 func (p *Controller) CtlGetInfoByName(c *gin.Context) {
 	param := c.Param("name")
 	result := p.md.GetInfoByNameFromDB(param)
@@ -38,6 +40,7 @@ func (p *Controller) CtlGetInfoByName(c *gin.Context) {
 	c.JSON(200, gin.H{"result" : result})
 }
 
+// pnum으로 data를 가져오는 controller 함수
 func (p *Controller) CtlGetInfoByPnum(c *gin.Context) {
 	param := c.Param("pnum")
 	result := p.md.GetInfoByPnumFromDB(param)
@@ -50,12 +53,14 @@ func (p *Controller) CtlGetInfoByPnum(c *gin.Context) {
 	c.JSON(200, gin.H{"result" : result})
 }
 
+// person 데이터를 추가하는 controller함수
 func (p *Controller) CtlAddPerson(c *gin.Context) {
 	result := p.md.AddPersonFromDB(c)
 
 	c.JSON(200, gin.H{"objectId": result})
 }
 
+// person 데이터를 삭제하는 controller 함수
 func (p *Controller) CtlDeletePerson(c *gin.Context) {
 	// body의 데이터를 가져오는 과정
 
@@ -67,7 +72,8 @@ func (p *Controller) CtlDeletePerson(c *gin.Context) {
 
 	// ioutil.ReadAll() 메서드로 stream데이터를 읽어오자
 	data, _ := ioutil.ReadAll(body) // data의 타입은 []byte이다. -> 바이트배열로 출력됨
-	fmt.Println("==========data0==========", string(data))
+	fmt.Println("==========data0==========", data)
+	fmt.Println("==========data0==========", data)
 
 	var value map[string]interface{}
 	// json.Unmarshal 메서드는 json 형식의 데이터를 []byte 타입으로 받아서
@@ -75,7 +81,9 @@ func (p *Controller) CtlDeletePerson(c *gin.Context) {
 	json.Unmarshal(data, &value)
 
 	// pnum값으로 삭제할 요소를 정할것이기 때문에 전달받은 body의 pnum값을 넘겨준다.
-	result := p.md.DeletePersonFromDB(value["pnum"].(string))
+	pnum := value["pnum"]
+	fmt.Println("==========value==========", value)
+	result := p.md.DeletePersonFromDB(pnum.(string))
 
 	var msg string
 	if result == 0 {
@@ -87,6 +95,7 @@ func (p *Controller) CtlDeletePerson(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": msg})
 }
 
+// person 데이터를 업데이트 하는 controller함수
 func (p *Controller) CtlUpdatePerson(c *gin.Context) {
 	// body는 ReadCloser 스트림 데이터
 	body := c.Request.Body
@@ -99,6 +108,8 @@ func (p *Controller) CtlUpdatePerson(c *gin.Context) {
 	// map형식이 담긴 value의 "pnum", "age" value를 가져옴
 	pnum := value["pnum"]
 	age := value["changeAge"]
+
+	fmt.Println("value======", value)
 
 	result := p.md.UpdatePersonFromDB(pnum.(string), age.(float64))
 

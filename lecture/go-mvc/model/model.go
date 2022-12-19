@@ -119,7 +119,7 @@ func (p *Model) AddPersonFromDB(c *gin.Context) interface{} {
 	return result.InsertedID
 }
 
-// // DB에서 정보를 삭제하는 model 함수
+// DB에서 정보를 삭제하는 model 함수
 func (p *Model) DeletePersonFromDB(pnum string) int64 {
 	filter := bson.D{{Key: "pnum", Value: pnum}}
 	result, err := p.colPersons.DeleteOne(context.TODO(), filter)
